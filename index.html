@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEET FASHION | Boutique</title>
+  
+  <!-- Production-Ready Font Loading: Preconnect and multiple weights/families -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Federo&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS Play CDN with Plugins (Forms, Typography, Aspect Ratio) -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  
+  <!-- Tailwind Configuration for Production Consistency -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'baby-pink': '#f6c1cc',
+            'soft-white': '#fff7f9',
+            'gold': '#c9a14a',
+            'dark-brown': '#4a2c2a',
+          },
+          fontFamily: {
+            sans: ['Federo', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --baby-pink: #f6c1cc;
+      --soft-white: #fff7f9;
+      --gold: #c9a14a;
+      --dark-brown: #4a2c2a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Federo', sans-serif;
+      background-color: var(--soft-white);
+      color: var(--dark-brown);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Explicit Utility Classes matching React Components */
+    .mono { font-family: 'Federo', sans-serif; }
+    .playfair { font-family: 'Playfair Display', serif; }
+
+    .window-panel {
+      background: white;
+      border: 1px solid var(--baby-pink);
+      box-shadow: 8px 8px 0px var(--baby-pink);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .window-panel:hover {
+      box-shadow: 12px 12px 0px var(--gold);
+      transform: translate(-4px, -4px);
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--soft-white); }
+    ::-webkit-scrollbar-thumb { background: var(--baby-pink); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    
+    img {
+      /* Ensure images are rendered as sharply as possible */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      font-smoothing: antialiased;
+    }
+
+    /* Marquee animation */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 40s linear infinite;
+    }
+
+    /* Remove any global pseudo-element animations */
+    body::after, body::before, #root::after, #root::before {
+      display: none !important;
+      content: none !important;
+      animation: none !important;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "react-dom": "https://esm.sh/react-dom@18.2.0",
+    "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?external=react,react-dom",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.39.7"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

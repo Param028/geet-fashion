@@ -1,0 +1,7 @@
+{
+  "name": "GEET FASHION",
+  "description": "A luxury boutique fashion designer platform with elegant baby-pink and gold aesthetics, featuring design galleries and a robust customer measurement management system.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
