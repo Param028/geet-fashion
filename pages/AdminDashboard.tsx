@@ -1,24 +1,31 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import AdminSidebar from '../components/AdminSidebar';
+import AdminLayout from '../components/AdminLayout';
 import { storage } from '../services/storage';
 import { Link } from 'react-router-dom';
 import { Design, Customer } from '../types';
 import LightRays from '../components/LightRays';
 import * as Icons from '../components/BoutiqueIcons';
+import Toast, { ToastType } from '../components/Toast';
 
 const AdminDashboard: React.FC = () => {
   const [designs, setDesigns] = useState<Design[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState<{msg: string, type: ToastType} | null>(null);
 
   const loadData = async () => {
-    const [d, c] = await Promise.all([
-      storage.getDesigns(),
-      storage.getCustomers()
-    ]);
-    setDesigns(d);
-    setCustomers(c);
-    setLoading(false);
+    try {
+      const [d, c] = await Promise.all([
+        storage.getDesigns(),
+        storage.getCustomers()
+      ]);
+      setDesigns(d);
+      setCustomers(c);
+    } catch (e) {
+      setToast({msg: "Failed to load dashboard data. Check connection.", type: 'error'});
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -53,15 +60,20 @@ const AdminDashboard: React.FC = () => {
     e.preventDefault();
     e.stopPropagation();
     if (customer.measurements) {
-      const updatedCustomer: Customer = {
-        ...customer,
-        measurements: {
-          ...customer.measurements,
-          isSubmitted: true
-        }
-      };
-      await storage.saveCustomer(updatedCustomer);
-      await loadData();
+      try {
+        const updatedCustomer: Customer = {
+          ...customer,
+          measurements: {
+            ...customer.measurements,
+            isSubmitted: true
+          }
+        };
+        await storage.saveCustomer(updatedCustomer);
+        setToast({msg: "Order marked as Delivered.", type: 'success'});
+        await loadData();
+      } catch(err) {
+        setToast({msg: "Update failed.", type: 'error'});
+      }
     }
   };
 
@@ -69,48 +81,57 @@ const AdminDashboard: React.FC = () => {
     e.preventDefault();
     e.stopPropagation();
     if (customer.measurements) {
-      const updatedCustomer: Customer = {
-        ...customer,
-        measurements: {
-          ...customer.measurements,
-          isPaymentDone: true
-        }
-      };
-      await storage.saveCustomer(updatedCustomer);
-      await loadData();
+      try {
+        const updatedCustomer: Customer = {
+          ...customer,
+          measurements: {
+            ...customer.measurements,
+            isPaymentDone: true
+          }
+        };
+        await storage.saveCustomer(updatedCustomer);
+        setToast({msg: "Payment confirmed.", type: 'success'});
+        await loadData();
+      } catch(err) {
+        setToast({msg: "Update failed.", type: 'error'});
+      }
     }
   };
 
   if (loading) return (
-    <div className="flex bg-[#fff7f9] min-h-screen">
-      <AdminSidebar />
-      <div className="flex-1 md:pl-72 flex items-center justify-center">
+    <AdminLayout>
+      <div className="flex items-center justify-center h-[60vh]">
         <div className="animate-spin text-4xl text-[#c9a14a]">
            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
            </svg>
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 
   return (
-    <div className="flex bg-[#fff7f9] min-h-screen relative">
-      <AdminSidebar />
+    <AdminLayout>
+      {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       <LightRays color="#f6c1cc" intensity={0.15} speed={80} />
       
-      {/* ADDED pt-28 for mobile */}
-      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16 relative z-10 max-w-[1600px] mx-auto">
+      <div className="relative z-10">
         <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-10 rounded-[50px] border border-[#f6c1cc] shadow-sm gap-6">
           <div>
             <h1 className="text-4xl font-bold playfair text-[#4a2c2a]">System Dashboard</h1>
             <p className="text-gray-400 font-medium italic mt-2">Boutique performance and real-time operational metrics.</p>
           </div>
           <div className="flex flex-col items-end gap-2 shrink-0">
-            <div className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${storage.isCloud() ? 'bg-green-100 text-green-600 border border-green-200' : 'bg-gray-100 text-gray-400 border border-gray-200'}`}>
-              {storage.isCloud() ? '● Live Database' : '○ Local Memory'}
-            </div>
-            <p className="text-[10px] mono text-[#c9a14a] font-bold">STITCH_V.1.2.8</p>
+            {storage.isCloud() ? (
+              <div className="px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm bg-green-100 text-green-600 border border-green-200">
+                ● Online
+              </div>
+            ) : (
+              <Link to="/admin/settings" className="px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm bg-red-100 text-red-600 border border-red-200 animate-pulse hover:bg-red-200 transition-colors">
+                ⚠️ Connect Cloud
+              </Link>
+            )}
+            <p className="text-[10px] mono text-[#c9a14a] font-bold">STITCH_V.2.0.0</p>
           </div>
         </header>
 
@@ -188,7 +209,7 @@ const AdminDashboard: React.FC = () => {
                   <span className="text-[10px] text-gray-300 font-bold mono shrink-0">{new Date(design.createdAt).toLocaleDateString()}</span>
                 </div>
               ))}
-              {designs.length === 0 && <p className="text-gray-300 italic text-sm text-center py-20">No boutique pieces found.</p>}
+              {designs.length === 0 && <p className="text-gray-300 italic text-sm text-center py-20">No boutique pieces found in cloud.</p>}
             </div>
           </div>
 
@@ -211,12 +232,12 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </Link>
               ))}
-              {customers.length === 0 && <p className="text-gray-300 italic text-sm text-center py-20">No client records found.</p>}
+              {customers.length === 0 && <p className="text-gray-300 italic text-sm text-center py-20">No client records found in cloud.</p>}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

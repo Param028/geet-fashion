@@ -9,6 +9,7 @@ import AdminManageGallery from './pages/AdminManageGallery';
 import AdminCustomers from './pages/AdminCustomers';
 import CustomerDetails from './pages/CustomerDetails';
 import AdminDownload from './pages/AdminDownload';
+import AdminSettings from './pages/AdminSettings';
 import { storage } from './services/storage';
 import { LOGO_SRC } from './constants';
 import CircularText from './components/CircularText';
@@ -103,6 +104,7 @@ const App: React.FC = () => {
             <Route path="/admin/customers" element={<ProtectedRoute><AdminCustomers /></ProtectedRoute>} />
             <Route path="/admin/customer/:id" element={<ProtectedRoute><CustomerDetails /></ProtectedRoute>} />
             <Route path="/admin/download" element={<ProtectedRoute><AdminDownload /></ProtectedRoute>} />
+            <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
