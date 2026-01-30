@@ -163,7 +163,8 @@ const CustomerDetails: React.FC = () => {
   return (
     <div className="flex bg-[#fff7f9] min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 md:pl-80 p-8 md:p-12 lg:p-16">
+      {/* ADDED pt-28 for mobile */}
+      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16">
         <div className="max-w-6xl mx-auto">
           <header className="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[50px] border border-[#f6c1cc] shadow-sm">
             <div className="flex items-center gap-8">
@@ -234,23 +235,23 @@ const CustomerDetails: React.FC = () => {
             </div>
           </header>
 
-          <div className="flex gap-6 mb-12">
+          <div className="flex gap-6 mb-12 overflow-x-auto pb-4">
             <button 
               onClick={() => setActiveTab('measurements')}
-              className={`px-10 py-5 rounded-[30px] font-black text-[11px] uppercase tracking-[0.3em] transition-all shadow-sm ${activeTab === 'measurements' ? 'bg-[#c9a14a] text-white shadow-2xl scale-105' : 'bg-white text-gray-400 border-2 border-[#f6c1cc] hover:border-[#c9a14a] hover:text-[#c9a14a]'}`}
+              className={`px-10 py-5 rounded-[30px] font-black text-[11px] uppercase tracking-[0.3em] transition-all shadow-sm whitespace-nowrap ${activeTab === 'measurements' ? 'bg-[#c9a14a] text-white shadow-2xl scale-105' : 'bg-white text-gray-400 border-2 border-[#f6c1cc] hover:border-[#c9a14a] hover:text-[#c9a14a]'}`}
             >
               Body Dimensions
             </button>
             <button 
               onClick={() => setActiveTab('preferred')}
-              className={`px-10 py-5 rounded-[30px] font-black text-[11px] uppercase tracking-[0.3em] transition-all shadow-sm ${activeTab === 'preferred' ? 'bg-[#c9a14a] text-white shadow-2xl scale-105' : 'bg-white text-gray-400 border-2 border-[#f6c1cc] hover:border-[#c9a14a] hover:text-[#c9a14a]'}`}
+              className={`px-10 py-5 rounded-[30px] font-black text-[11px] uppercase tracking-[0.3em] transition-all shadow-sm whitespace-nowrap ${activeTab === 'preferred' ? 'bg-[#c9a14a] text-white shadow-2xl scale-105' : 'bg-white text-gray-400 border-2 border-[#f6c1cc] hover:border-[#c9a14a] hover:text-[#c9a14a]'}`}
             >
               Design Notes
             </button>
           </div>
 
           {activeTab === 'measurements' ? (
-            <div className="bg-white p-12 md:p-16 rounded-[60px] shadow-sm border border-[#f6c1cc] relative overflow-hidden">
+            <div className="bg-white p-8 md:p-16 rounded-[40px] md:rounded-[60px] shadow-sm border border-[#f6c1cc] relative overflow-hidden">
               {isEditing && (
                 <div className="absolute top-0 left-0 w-full h-2 bg-[#c9a14a] animate-pulse"></div>
               )}
@@ -269,9 +270,9 @@ const CustomerDetails: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSaveProfile}>
-                  <div className="flex justify-between items-center mb-12 pb-8 border-b-2 border-[#fff7f9] flex-wrap gap-6">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 pb-8 border-b-2 border-[#fff7f9] flex-wrap gap-6">
                     <h3 className="text-[11px] font-black text-[#4a2c2a] uppercase tracking-[0.5em]">Dimension Archive Vault</h3>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 flex-wrap">
                       <button 
                         type="button"
                         onClick={togglePaymentStatus}
@@ -297,8 +298,8 @@ const CustomerDetails: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10 mb-16">
-                    <div className="xl:col-span-2">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 md:gap-10 mb-16">
+                    <div className="col-span-2 xl:col-span-2">
                       <label className="block text-[11px] font-black text-[#c9a14a] uppercase tracking-[0.4em] mb-4">Target Deadline</label>
                       <input 
                         type="date" 
@@ -381,7 +382,7 @@ const CustomerDetails: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-16 animate-in fade-in duration-700">
-              <div className="bg-white p-16 rounded-[60px] shadow-sm border border-[#f6c1cc]">
+              <div className="bg-white p-8 md:p-16 rounded-[40px] md:rounded-[60px] shadow-sm border border-[#f6c1cc]">
                 <h2 className="text-3xl font-bold text-[#4a2c2a] mb-12 playfair border-b border-[#fff7f9] pb-6">Design References</h2>
                 <form onSubmit={handleUploadPreferred} className="grid grid-cols-1 lg:grid-cols-2 gap-20">
                   <div 

@@ -90,7 +90,8 @@ const AdminCustomers: React.FC = () => {
   return (
     <div className="flex bg-[#fff7f9] min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 md:pl-80 p-8 md:p-12 lg:p-16">
+      {/* ADDED pt-28 for mobile */}
+      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16">
         <div className="max-w-6xl mx-auto">
           <header className="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[50px] border border-[#f6c1cc] shadow-sm">
             <div className="md:text-left">
@@ -111,7 +112,7 @@ const AdminCustomers: React.FC = () => {
           </header>
 
           {isAdding && (
-            <div className="bg-white p-12 md:p-16 rounded-[60px] shadow-sm mb-16 border border-[#f6c1cc] animate-in slide-in-from-top-6 duration-700">
+            <div className="bg-white p-8 md:p-16 rounded-[40px] md:rounded-[60px] shadow-sm mb-16 border border-[#f6c1cc] animate-in slide-in-from-top-6 duration-700">
               <h2 className="text-3xl font-bold text-[#4a2c2a] mb-12 playfair border-b border-[#fff7f9] pb-6">Client Onboarding</h2>
               <form onSubmit={handleAddCustomer}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
@@ -148,12 +149,12 @@ const AdminCustomers: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mb-12 p-12 bg-[#fff7f9] rounded-[50px] border border-[#f6c1cc]/30 shadow-inner">
+                <div className="mb-12 p-8 md:p-12 bg-[#fff7f9] rounded-[40px] md:rounded-[50px] border border-[#f6c1cc]/30 shadow-inner">
                   <div className="flex items-center justify-between border-b border-[#f6c1cc] pb-6 mb-10">
                     <h3 className="text-[11px] font-black text-[#4a2c2a] uppercase tracking-[0.5em]">Stitch Dimensions (Inches)</h3>
                     <span className="text-[10px] mono text-[#c9a14a] font-bold bg-white px-4 py-1.5 rounded-full shadow-sm border border-[#f6c1cc]">STNDRD_MEASURE</span>
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 md:gap-8">
                     {measurementFields.map((field) => (
                       <div key={field.id}>
                         <label className="block text-[10px] font-black text-[#c9a14a] uppercase mb-3 tracking-widest">{field.label}</label>
@@ -178,7 +179,7 @@ const AdminCustomers: React.FC = () => {
             </div>
           )}
 
-          <div className="bg-white p-12 rounded-[60px] shadow-sm border border-[#f6c1cc]">
+          <div className="bg-white p-8 md:p-12 rounded-[40px] md:rounded-[60px] shadow-sm border border-[#f6c1cc]">
             <div className="mb-12">
               <div className="relative group">
                 <span className="absolute left-8 top-1/2 -translate-y-1/2 text-[#c9a14a] transition-transform group-focus-within:scale-110">
@@ -195,7 +196,7 @@ const AdminCustomers: React.FC = () => {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left min-w-[800px]">
                 <thead>
                   <tr className="border-b-2 border-[#fff7f9]">
                     <th className="pb-8 font-black text-[#c9a14a] text-[11px] uppercase tracking-[0.4em] px-8">Client Identity</th>

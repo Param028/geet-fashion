@@ -99,7 +99,8 @@ const AdminDashboard: React.FC = () => {
       <AdminSidebar />
       <LightRays color="#f6c1cc" intensity={0.15} speed={80} />
       
-      <div className="flex-1 md:pl-80 p-8 md:p-12 lg:p-16 relative z-10 pt-24 md:pt-16 max-w-[1600px] mx-auto">
+      {/* ADDED pt-28 for mobile */}
+      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16 relative z-10 max-w-[1600px] mx-auto">
         <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-10 rounded-[50px] border border-[#f6c1cc] shadow-sm gap-6">
           <div>
             <h1 className="text-4xl font-bold playfair text-[#4a2c2a]">System Dashboard</h1>

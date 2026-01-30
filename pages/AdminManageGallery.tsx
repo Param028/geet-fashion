@@ -46,7 +46,8 @@ const AdminManageGallery: React.FC = () => {
   return (
     <div className="flex bg-[#fff7f9] min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 md:pl-80 p-8 md:p-12 lg:p-16">
+      {/* ADDED pt-28 for mobile view */}
+      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16">
         <div className="max-w-7xl mx-auto">
           <header className="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[50px] border border-[#f6c1cc] shadow-sm">
             <div>
@@ -75,7 +76,7 @@ const AdminManageGallery: React.FC = () => {
               <p className="text-gray-400 font-black uppercase tracking-[0.6em] text-sm">Portfolio Archive Empty</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {designs.map((design) => (
                 <div 
                   key={design.id} 
@@ -94,12 +95,12 @@ const AdminManageGallery: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="p-10 flex-grow flex flex-col bg-white">
+                  <div className="p-8 flex-grow flex flex-col bg-white">
                     <h3 className="font-bold text-[#4a2c2a] text-xl leading-tight mb-8 playfair h-14 overflow-hidden group-hover:text-[#c9a14a] transition-colors">{design.name}</h3>
                     
-                    <div className="mt-auto pt-8 border-t border-[#fff7f9] flex items-center justify-between">
-                      <div className="mono text-[10px] text-gray-300 font-bold uppercase tracking-widest">
-                        VAULT_{String(design.id).slice(-4)}
+                    <div className="mt-auto pt-6 border-t border-[#fff7f9] flex items-center justify-between gap-4">
+                      <div className="mono text-[9px] text-gray-300 font-bold uppercase tracking-widest truncate">
+                        ID_{String(design.id).slice(-4)}
                       </div>
                       <button 
                         type="button"
@@ -108,7 +109,7 @@ const AdminManageGallery: React.FC = () => {
                           e.stopPropagation();
                           if(design.id) handleDelete(design.id);
                         }}
-                        className="px-8 py-3 bg-red-50 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-all shadow-sm active:scale-90"
+                        className="px-6 py-2 bg-red-50 text-red-500 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-all shadow-sm active:scale-90"
                       >
                         Delete
                       </button>

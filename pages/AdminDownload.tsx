@@ -36,7 +36,8 @@ const AdminDownload: React.FC = () => {
   return (
     <div className="flex bg-[#fff7f9] min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 md:pl-80 p-8 md:p-12 lg:p-16">
+      {/* ADDED pt-28 for mobile */}
+      <div className="flex-1 md:pl-80 p-6 pt-28 md:p-12 md:pt-12 lg:p-16">
         <div className="max-w-6xl mx-auto">
           <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between bg-white p-12 rounded-[60px] border border-[#f6c1cc] shadow-sm">
             <div className="md:text-left">

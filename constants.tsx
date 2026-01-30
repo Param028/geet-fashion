@@ -14,4 +14,8 @@ export const THEME_COLORS = {
   darkBrown: '#4a2c2a'
 };
 
-export const LOGO_SRC = '/logo.png';
+// INSTRUCTION: 
+// To use your own logo: 
+// 1. Upload a file named 'logo.png' to your project root.
+// 2. Change the line below to: export const LOGO_SRC = '/logo.png';
+export const LOGO_SRC = 'https://cdn-icons-png.flaticon.com/512/9373/9373467.png'; // Elegant dress icon placeholder
