@@ -1,5 +1,6 @@
 import { Design, Customer, AdminAuth, Category } from '../types';
 import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_CONFIG } from '../constants';
 
 // Robust environment variable retrieval
 const getEnv = (key: string) => {
@@ -37,9 +38,10 @@ const getStoredConfig = () => {
   return null;
 };
 
+// PRIORITY: 1. Constants (Code) -> 2. Env Vars -> 3. Local Storage (Settings Page)
 const storedConfig = getStoredConfig();
-const SUPABASE_URL = storedConfig?.url || getEnv('SUPABASE_URL');
-const SUPABASE_KEY = storedConfig?.key || getEnv('SUPABASE_ANON_KEY');
+const SUPABASE_URL = SUPABASE_CONFIG.url || getEnv('SUPABASE_URL') || storedConfig?.url;
+const SUPABASE_KEY = SUPABASE_CONFIG.anonKey || getEnv('SUPABASE_ANON_KEY') || storedConfig?.key;
 
 // Initialize Supabase if keys exist
 const supabase = SUPABASE_URL && SUPABASE_KEY ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
@@ -51,6 +53,9 @@ const KEYS = {
 
 export const storage = {
   isCloud: () => !!supabase,
+  
+  // Check if we are using code-based config (for UI feedback)
+  isConfiguredViaCode: () => !!(SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey),
 
   // NEW: Save Cloud Config manually
   saveCloudConfig: (url: string, key: string) => {
@@ -59,7 +64,11 @@ export const storage = {
   },
 
   getCloudConfig: () => {
-    return getStoredConfig();
+    // Return combined config for display purposes
+    return {
+        url: SUPABASE_URL,
+        key: SUPABASE_KEY
+    };
   },
 
   init: async () => {
@@ -68,7 +77,7 @@ export const storage = {
 
   // NEW: Upload image to Supabase Storage
   uploadImage: async (file: Blob | File): Promise<string> => {
-    if (!supabase) throw new Error("Cloud storage not connected. Please configure Supabase in Settings.");
+    if (!supabase) throw new Error("Cloud storage not connected. Please configure Supabase in Settings or constants.tsx.");
     
     // Create a unique file name
     const timestamp = Date.now();

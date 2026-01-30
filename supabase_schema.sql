@@ -1,19 +1,17 @@
 -- GEET FASHION BOUTIQUE - SUPABASE SCHEMA
--- Run this in the Supabase SQL Editor to initialize your database
+-- Run this in the Supabase SQL Editor to initialize your database and fix RLS errors
 
 -- 1. DESIGNS TABLE
--- Stores portfolio pieces and gallery items
 CREATE TABLE IF NOT EXISTS designs (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   category TEXT NOT NULL,
   description TEXT,
-  image TEXT NOT NULL, -- Stores Cloud URL or Base64
+  image TEXT NOT NULL,
   "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- 2. CUSTOMERS TABLE
--- Stores client registry, measurements, and preferred designs
 CREATE TABLE IF NOT EXISTS customers (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -24,40 +22,53 @@ CREATE TABLE IF NOT EXISTS customers (
 );
 
 -- 3. ADMIN CREDENTIALS TABLE
--- Stores the secure access credentials for the admin dashboard
 CREATE TABLE IF NOT EXISTS admin_users (
   username TEXT PRIMARY KEY,
   password TEXT NOT NULL
 );
 
 -- INSERT ADMIN CREDENTIALS
--- Username: gsj6600
--- Password: 6600
 INSERT INTO admin_users (username, password)
 VALUES ('gsj6600', '6600')
 ON CONFLICT (username) DO UPDATE 
 SET password = EXCLUDED.password;
 
--- 4. ROW LEVEL SECURITY (RLS) POLICIES
--- The application currently uses the Supabase Anon Key for operations.
--- We must enable public access policies for the app to function without Supabase Auth Sign-in.
-
--- Enable RLS on tables
+-- 4. ENABLE ROW LEVEL SECURITY
 ALTER TABLE designs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
 
--- Create Policies for Designs (Public Read/Write)
+-- 5. TABLE POLICIES (Fixes "new row violates row level security policy" for Data)
+
+-- Allow public access to Designs
+DROP POLICY IF EXISTS "Public Designs Access" ON designs;
 CREATE POLICY "Public Designs Access" ON designs
 FOR ALL USING (true) WITH CHECK (true);
 
--- Create Policies for Customers (Public Read/Write)
+-- Allow public access to Customers
+DROP POLICY IF EXISTS "Public Customers Access" ON customers;
 CREATE POLICY "Public Customers Access" ON customers
 FOR ALL USING (true) WITH CHECK (true);
 
--- Note: The Admin Users table is left private by default (no policy) for security.
--- The app currently validates these credentials using the client-side constants.
+-- 6. STORAGE POLICIES (Fixes "new row violates..." during Image Upload)
 
--- 5. STORAGE BUCKET SETUP INSTRUCTION
--- You must manually create a bucket named 'designs' in the Supabase Storage dashboard
--- and set its "Public Access" to TRUE.
+-- Note: You must first create a bucket named 'designs' in the Storage menu.
+
+-- Allow Public Uploads (INSERT) to 'designs' bucket
+DROP POLICY IF EXISTS "Allow Public Uploads" ON storage.objects;
+CREATE POLICY "Allow Public Uploads" ON storage.objects
+FOR INSERT WITH CHECK (bucket_id = 'designs');
+
+-- Allow Public Viewing (SELECT) from 'designs' bucket
+DROP POLICY IF EXISTS "Allow Public Selects" ON storage.objects;
+CREATE POLICY "Allow Public Selects" ON storage.objects
+FOR SELECT USING (bucket_id = 'designs');
+
+-- Allow Public Updates/Deletes in 'designs' bucket
+DROP POLICY IF EXISTS "Allow Public Updates" ON storage.objects;
+CREATE POLICY "Allow Public Updates" ON storage.objects
+FOR UPDATE USING (bucket_id = 'designs');
+
+DROP POLICY IF EXISTS "Allow Public Deletes" ON storage.objects;
+CREATE POLICY "Allow Public Deletes" ON storage.objects
+FOR DELETE USING (bucket_id = 'designs');

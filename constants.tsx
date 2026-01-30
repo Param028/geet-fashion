@@ -14,6 +14,15 @@ export const THEME_COLORS = {
   darkBrown: '#4a2c2a'
 };
 
+// --- CLOUD CONFIGURATION (REQUIRED FOR MOBILE/CROSS-DEVICE) ---
+// 1. Go to Supabase Dashboard (https://supabase.com/dashboard) -> Project Settings -> API
+// 2. Copy "Project URL" and paste it inside the quotes below.
+// 3. Copy "anon public" key and paste it inside the quotes below.
+export const SUPABASE_CONFIG = {
+  url: 'https://hkzijgiuytvpkyerbtxv.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhremlqZ2l1eXR2cGt5ZXJidHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODc2ODIsImV4cCI6MjA4NTE2MzY4Mn0.wI4G1lZMQdz6pjuzN50QZRibxMq0XR-jAi3EYdIkoK4'
+};
+
 // INSTRUCTION: 
 // To use your own logo: 
 // 1. Upload a file named 'logo.png' to your project root.
