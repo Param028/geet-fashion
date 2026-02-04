@@ -21,9 +21,11 @@ const CustomerDetails: React.FC = () => {
   
   // Measurement State
   const [measurements, setMeasurements] = useState<Measurement>({
-    chest: '', bust: '', waist: '', lowerBelly: '',
-    sleeveLength: '', neckDepth: '', shoulder: '', wrist: '', ankle: '',
-    blouseLength: '', fullLength: '', notes: '', dateSaved: '', dueDate: '',
+    blouseLength: '', dressLength: '',
+    chest: '', waistRound: '', waistHeight: '', seatRound: '', tuksPoint: '',
+    sleeveLength: '', armRound: '', armhole: '', shoulder: '',
+    frontNeck: '', backNeck: '',
+    notes: '', dateSaved: '', dueDate: '',
     isSubmitted: false,
     isPaymentDone: false
   });
@@ -43,17 +45,19 @@ const CustomerDetails: React.FC = () => {
         setCustPhone(cust.phone);
         if (cust.measurements) {
           setMeasurements({
-            chest: cust.measurements.chest || '',
-            bust: cust.measurements.bust || '',
-            waist: cust.measurements.waist || '',
-            lowerBelly: cust.measurements.lowerBelly || '',
-            sleeveLength: cust.measurements.sleeveLength || '',
-            neckDepth: cust.measurements.neckDepth || '',
-            shoulder: cust.measurements.shoulder || '',
-            wrist: cust.measurements.wrist || '',
-            ankle: cust.measurements.ankle || '',
             blouseLength: cust.measurements.blouseLength || '',
-            fullLength: cust.measurements.fullLength || '',
+            dressLength: cust.measurements.dressLength || '',
+            chest: cust.measurements.chest || '',
+            waistRound: cust.measurements.waistRound || '',
+            waistHeight: cust.measurements.waistHeight || '',
+            seatRound: cust.measurements.seatRound || '',
+            tuksPoint: cust.measurements.tuksPoint || '',
+            sleeveLength: cust.measurements.sleeveLength || '',
+            armRound: cust.measurements.armRound || '',
+            armhole: cust.measurements.armhole || '',
+            shoulder: cust.measurements.shoulder || '',
+            frontNeck: cust.measurements.frontNeck || '',
+            backNeck: cust.measurements.backNeck || '',
             notes: cust.measurements.notes || '',
             dateSaved: cust.measurements.dateSaved || '',
             dueDate: cust.measurements.dueDate || '',
@@ -181,6 +185,22 @@ const CustomerDetails: React.FC = () => {
       setToast({msg: "Delete failed.", type: 'error'});
     }
   };
+
+  const fields = [
+    { id: 'blouseLength', label: 'Blouse Height' },
+    { id: 'dressLength', label: 'Dress Height' },
+    { id: 'chest', label: 'Chest' },
+    { id: 'waistRound', label: 'Waist Round' },
+    { id: 'waistHeight', label: 'Waist Height' },
+    { id: 'seatRound', label: 'Seat Round' },
+    { id: 'sleeveLength', label: 'Sleeves Height' },
+    { id: 'armRound', label: 'Arm Round' },
+    { id: 'armhole', label: 'Armhole' },
+    { id: 'shoulder', label: 'Shoulder' },
+    { id: 'frontNeck', label: 'Front Neck' },
+    { id: 'backNeck', label: 'Back Neck' },
+    { id: 'tuksPoint', label: 'Tuks Point' },
+  ];
 
   if (!customer) return null;
 
@@ -314,7 +334,7 @@ const CustomerDetails: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 md:gap-10 mb-16">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10 mb-16">
                 <div className="col-span-2 xl:col-span-2">
                   <label className="block text-[11px] font-black text-[#c9a14a] uppercase tracking-[0.4em] mb-4">Target Deadline</label>
                   <input 
@@ -329,19 +349,7 @@ const CustomerDetails: React.FC = () => {
                     }`}
                   />
                 </div>
-                {[
-                  { id: 'chest', label: 'Chest' },
-                  { id: 'bust', label: 'Bust' },
-                  { id: 'waist', label: 'Waist' },
-                  { id: 'lowerBelly', label: 'Lower Belly' },
-                  { id: 'sleeveLength', label: 'Sleeve' },
-                  { id: 'neckDepth', label: 'Neck' },
-                  { id: 'shoulder', label: 'Shoulder' },
-                  { id: 'wrist', label: 'Wrist' },
-                  { id: 'ankle', label: 'Ankle' },
-                  { id: 'blouseLength', label: 'Blouse' },
-                  { id: 'fullLength', label: 'Full' }
-                ].map((field) => (
+                {fields.map((field) => (
                   <div key={field.id}>
                     <label className="block text-[11px] font-black text-[#c9a14a] uppercase tracking-[0.4em] mb-4">{field.label}</label>
                     <input 

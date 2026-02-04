@@ -19,10 +19,14 @@ const AdminCustomers: React.FC = () => {
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  
+  // Updated initial state with new fields
   const [measurements, setMeasurements] = useState<Measurement>({
-    chest: '', bust: '', waist: '', lowerBelly: '',
-    sleeveLength: '', neckDepth: '', shoulder: '', wrist: '', ankle: '',
-    blouseLength: '', fullLength: '', notes: '', dateSaved: '', dueDate: '',
+    blouseLength: '', dressLength: '',
+    chest: '', waistRound: '', waistHeight: '', seatRound: '', tuksPoint: '',
+    sleeveLength: '', armRound: '', armhole: '', shoulder: '',
+    frontNeck: '', backNeck: '',
+    notes: '', dateSaved: '', dueDate: '',
     isSubmitted: false,
     isPaymentDone: false
   });
@@ -72,9 +76,11 @@ const AdminCustomers: React.FC = () => {
       setName('');
       setPhone('');
       setMeasurements({
-        chest: '', bust: '', waist: '', lowerBelly: '',
-        sleeveLength: '', neckDepth: '', shoulder: '', wrist: '', ankle: '',
-        blouseLength: '', fullLength: '', notes: '', dateSaved: '', dueDate: '',
+        blouseLength: '', dressLength: '',
+        chest: '', waistRound: '', waistHeight: '', seatRound: '', tuksPoint: '',
+        sleeveLength: '', armRound: '', armhole: '', shoulder: '',
+        frontNeck: '', backNeck: '',
+        notes: '', dateSaved: '', dueDate: '',
         isSubmitted: false,
         isPaymentDone: false
       });
@@ -103,18 +109,21 @@ const AdminCustomers: React.FC = () => {
     }
   };
 
+  // New Fields Definition
   const measurementFields = [
+    { id: 'blouseLength', label: 'Blouse Height (Total)' },
+    { id: 'dressLength', label: 'Dress Height (Total)' },
     { id: 'chest', label: 'Chest' },
-    { id: 'bust', label: 'Bust' },
-    { id: 'waist', label: 'Waist' },
-    { id: 'lowerBelly', label: 'Lower Belly' },
-    { id: 'sleeveLength', label: 'Sleeve Length' },
-    { id: 'neckDepth', label: 'Neck Depth' },
+    { id: 'waistRound', label: 'Waist Round' },
+    { id: 'waistHeight', label: 'Waist Height' },
+    { id: 'seatRound', label: 'Seat Round' },
+    { id: 'sleeveLength', label: 'Sleeves Height' },
+    { id: 'armRound', label: 'Arm Round' },
+    { id: 'armhole', label: 'Armhole' },
     { id: 'shoulder', label: 'Shoulder' },
-    { id: 'wrist', label: 'Wrist' },
-    { id: 'ankle', label: 'Ankle' },
-    { id: 'blouseLength', label: 'Blouse Length' },
-    { id: 'fullLength', label: 'Full Length' }
+    { id: 'frontNeck', label: 'Front Neck' },
+    { id: 'backNeck', label: 'Back Neck' },
+    { id: 'tuksPoint', label: 'Tuks Point' },
   ];
 
   return (
@@ -191,7 +200,7 @@ const AdminCustomers: React.FC = () => {
                 <h3 className="text-[11px] font-black text-[#4a2c2a] uppercase tracking-[0.5em]">Stitch Dimensions (Inches)</h3>
                 <span className="text-[10px] mono text-[#c9a14a] font-bold bg-white px-4 py-1.5 rounded-full shadow-sm border border-[#f6c1cc]">STNDRD_MEASURE</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 md:gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
                 {measurementFields.map((field) => (
                   <div key={field.id}>
                     <label className="block text-[10px] font-black text-[#c9a14a] uppercase mb-3 tracking-widest">{field.label}</label>

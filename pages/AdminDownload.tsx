@@ -20,11 +20,17 @@ const AdminDownload: React.FC = () => {
 
   const handleDownloadCSV = async () => {
     const customers = await storage.getCustomers();
-    let csv = 'Name,Phone,Chest,Bust,Waist,Lower Belly,Sleeve Length,Neck Depth,Shoulder,Wrist,Ankle,Blouse Length,Full Length,Notes\n';
+    // Updated header list matching new fields
+    let csv = 'Name,Phone,Blouse Length,Dress Length,Chest,Waist Round,Waist Height,Seat Round,Sleeves Height,Arm Round,Armhole,Shoulder,Front Neck,Back Neck,Tuks Point,Notes\n';
+    
     customers.forEach(c => {
       const m = c.measurements;
-      csv += `"${c.name}","${c.phone}","${m?.chest || ''}","${m?.bust || ''}","${m?.waist || ''}","${m?.lowerBelly || ''}","${m?.sleeveLength || ''}","${m?.neckDepth || ''}","${m?.shoulder || ''}","${m?.wrist || ''}","${m?.ankle || ''}","${m?.blouseLength || ''}","${m?.fullLength || ''}","${m?.notes?.replace(/"/g, '""') || ''}"\n`;
+      // CSV Escape Helper
+      const esc = (val: string | undefined) => (val ? `"${val.replace(/"/g, '""')}"` : '""');
+      
+      csv += `${esc(c.name)},${esc(c.phone)},${esc(m?.blouseLength)},${esc(m?.dressLength)},${esc(m?.chest)},${esc(m?.waistRound)},${esc(m?.waistHeight)},${esc(m?.seatRound)},${esc(m?.sleeveLength)},${esc(m?.armRound)},${esc(m?.armhole)},${esc(m?.shoulder)},${esc(m?.frontNeck)},${esc(m?.backNeck)},${esc(m?.tuksPoint)},${esc(m?.notes)}\n`;
     });
+    
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -72,7 +78,7 @@ const AdminDownload: React.FC = () => {
           </p>
           <button 
             onClick={handleDownloadJSON}
-            className="w-full bg-[#4a2c2a] text-white py-6 rounded-3xl font-black text-[11px] uppercase tracking-[0.4em] shadow-xl hover:bg-[#c9a14a] transition-all"
+            className="w-full bg-[#4a2c2a] text-white py-6 rounded-3xl font-black text-[11px] uppercase tracking-[0.4em] shadow-xl hover:bg-[#4a2c2a] transition-all"
           >
             Complete JSON Backup
           </button>

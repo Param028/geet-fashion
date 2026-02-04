@@ -19,17 +19,28 @@ export interface Design {
 }
 
 export interface Measurement {
+  // Lengths
+  blouseLength: string; // Blouse Total Height
+  dressLength: string;  // Dress Total Height
+  
+  // Torso
   chest: string;
-  bust: string;
-  waist: string;
-  lowerBelly: string;
-  sleeveLength: string;
-  neckDepth: string;
+  waistRound: string;
+  waistHeight: string;
+  seatRound: string;
+  tuksPoint: string;
+  
+  // Limbs & Shoulders
+  sleeveLength: string; // Sleeves Height
+  armRound: string;
+  armhole: string;
   shoulder: string;
-  wrist: string;
-  ankle: string;
-  blouseLength: string;
-  fullLength: string;
+  
+  // Neck
+  frontNeck: string;
+  backNeck: string;
+  
+  // Meta
   notes: string;
   dateSaved: string;
   dueDate?: string; // Target submission/delivery date
